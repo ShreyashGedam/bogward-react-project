@@ -11,9 +11,49 @@ import {
   Input,
   Stack,
   Image,
+  useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const handleClick = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.post("https://bogward.onrender.com/login", {
+        email: email,
+        mobile: mobile,
+      });
+
+      console.log(res.data);
+      toast({
+        position: "top",
+        title: "Loged in Successfully.",
+        description: "You logged in successfully.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      setLoading(false);
+    } catch (error) {
+      toast({
+        position: "top",
+        title: "Invalid Credentials.",
+        description: "Please put correct Credentials.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
@@ -21,11 +61,14 @@ export default function Login() {
           <Heading fontSize={"2xl"}>Sign in to your account</Heading>
           <FormControl id="email">
             <FormLabel>Email address</FormLabel>
-            <Input type="email" />
+            <Input type="email" onChange={(e) => setEmail(e.target.value)} />
           </FormControl>
           <FormControl id="password">
-            <FormLabel>Password</FormLabel>
-            <Input type="password" />
+            <FormLabel>Mobile</FormLabel>
+            <Input
+              type="password"
+              onChange={(e) => setMobile(e.target.value)}
+            />
           </FormControl>
           <Stack spacing={6}>
             <Stack
@@ -36,7 +79,12 @@ export default function Login() {
               <Checkbox>Remember me</Checkbox>
               <Text color={"blue.500"}>Forgot password?</Text>
             </Stack>
-            <Button colorScheme={"blue"} variant={"solid"}>
+            <Button
+              colorScheme={"blue"}
+              variant={"solid"}
+              onClick={handleClick}
+              isLoading={loading}
+            >
               Sign in
             </Button>
           </Stack>
