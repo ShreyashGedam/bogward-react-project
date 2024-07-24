@@ -13,8 +13,6 @@ import {
 export default function Card(props) {
   const { image, name, price } = props;
 
-  console.log(image);
-
   const IMAGE = image;
 
   return (
