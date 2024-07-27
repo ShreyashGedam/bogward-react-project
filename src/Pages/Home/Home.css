@@ -1,8 +1,25 @@
-.home-main{
+.home-main {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     width: 95%;
     margin: auto;
     justify-content: space-between;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.cart-button {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.cart-button>div {
+    background-color: gold;
+    cursor: pointer;
 }

@@ -22,9 +22,15 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
+import { useContext } from "react";
+import { CartContext } from "../../Context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const navigate = useNavigate();
+
+  const { cart } = useContext(CartContext);
 
   return (
     <Box>
@@ -58,8 +64,9 @@ export default function Navbar() {
             textAlign={useBreakpointValue({ base: "center", md: "left" })}
             fontFamily={"heading"}
             color={useColorModeValue("gray.800", "white")}
+            onClick={() => navigate("/")}
           >
-            Logo
+            Home
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -95,6 +102,20 @@ export default function Navbar() {
             }}
           >
             Sign Up
+          </Button>
+          <Button
+            as={"a"}
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize={"sm"}
+            fontWeight={600}
+            color={"white"}
+            bg={"pink.400"}
+            href={"/cart"}
+            _hover={{
+              bg: "pink.300",
+            }}
+          >
+            Cart {cart.length}
           </Button>
         </Stack>
       </Flex>

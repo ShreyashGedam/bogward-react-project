@@ -1,34 +1,29 @@
 import { useContext, useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import "./Home.css";
+// import "./Home.css";
+import "../Home/Home.css";
 import axios from "axios";
 import Card from "../../Components/Card/Card";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { CartContext } from "../../Context/CartContext";
 
-function Home() {
+function Cart() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   const { setCart, cart } = useContext(CartContext);
 
   useEffect(() => {
-    getData();
+    let cart = localStorage.getItem("cart");
+    cart = JSON.parse(cart);
+    console.log(cart);
+    setData(cart);
   }, []);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
-
-  const getData = async () => {
-    try {
-      const res = await axios.get("http://localhost:8080/products");
-      setData(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getCart = (id) => {
     for (let i = 0; i < cart.length; i++) {
@@ -101,4 +96,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Cart;
